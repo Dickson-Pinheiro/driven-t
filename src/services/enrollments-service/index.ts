@@ -13,7 +13,13 @@ type ResponseAdress = {
   uf: string;
 };
 
-async function getAddressFromCEP(cep: string) {
+type Adress = Omit<ResponseAdress, "localidade"> & {
+  cidade: string
+}
+
+
+
+async function getAddressFromCEP(cep: string): Promise<Adress> {
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
   if (!result.data) {
     throw notFoundError();
